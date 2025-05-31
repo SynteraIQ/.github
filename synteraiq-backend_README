@@ -1,0 +1,79 @@
+# 🧠 SynteraIQ Backend Architecture
+
+SynteraIQ's backend is designed as a modular, multi-agent infrastructure layer that powers intelligent automation across PhysicalOps — in sectors like airports, railways, and ports.
+
+Each backend service aligns with a vertical-specific agent or platform capability, all orchestrated via a common routing and auth layer.
+
+---
+
+## 🧱 Repo Structure
+
+| Repo | Purpose |
+|------|---------|
+| `platform-core` | Central auth, tenant mgmt, user roles, audit logging |
+| `platform-router` | Orchestration and routing logic between agents |
+| `agent-capex` | Capital expenditure intake and approval automation |
+| `agent-procurement` | Purchase request automation and vendor routing |
+| `agent-maintenance` | Predictive/preventive maintenance workflows |
+| `agent-risk` | Safety, compliance, and anomaly detection |
+| `agent-ops-control` | Resource scheduling, shift handoffs (AODB/FRMS) |
+| `agent-sdk` | Shared logic for GPT handling, retries, memory, tracing |
+| `ml-infra` | RAG pipelines, vector stores, model endpoints (optional) |
+
+---
+
+## 🧠 Key Architecture Principles
+
+- 🧩 **Modular agents**: Each agent is an isolated microservice
+- 🔄 **Workflow orchestration**: `platform-router` coordinates flows across agents
+- 🧠 **GPT-native**: Agents interact through prompt + memory architecture
+- 🔐 **Multi-tenant**: Each customer/vertical is isolated via `platform-core`
+- 🌐 **Integrations**: SAP, AODB, FRMS, GIS, AD are supported via adapters
+
+---
+
+## 🗃 Agent Structure Example (`agent-capex/`)
+
+```
+agent-capex/
+├── backend/
+│   ├── main.py            # FastAPI entrypoint
+│   ├── websocket.py       # WebSocket GPT handler
+│   ├── gpt_engine.py      # GPT call logic
+│   ├── workflows/         # Approval logic, routing
+│   ├── database.py        # SQLModel/Postgres models
+│   └── utils.py           # Retry, logging
+├── tests/
+└── README.md
+```
+
+---
+
+## 🔌 Integration Touchpoints
+
+| System | Role |
+|--------|------|
+| **SAP** | Internal orders, WBS, procurement |
+| **AODB/FRMS** | Flight/resource context for ops workflows |
+| **SSO / AD** | Secure auth & role-based access |
+| **Excel / AOP Sheet** | Budget validation (via parsing API or UI upload) |
+| **PostgreSQL** | Primary DB for all agents |
+| **Temporal** (optional) | Durable workflows & async approvals |
+
+---
+
+## 📦 Tech Stack
+
+- FastAPI + WebSocket
+- PostgreSQL (via SQLModel or SQLAlchemy)
+- OpenAI / Claude / local LLMs
+- Redis (optional for chat history)
+- Python 3.11+
+- Docker + GitHub Actions
+- Future: Temporal.io (workflow durability)
+
+---
+
+## 📄 License
+
+MIT © 2025 SynteraIQ — backend infrastructure for PhysicalOps automation.
