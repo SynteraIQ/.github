@@ -1,69 +1,110 @@
-# .github
+# 🧠 SynteraIQ – AI-Native Platform for PhysicalOps Automation
 
-# 🧭 SynteraIQ UI Architecture
+**SynteraIQ** is a modular AI platform built to automate operational workflows across physical infrastructure domains — including **airports**, **railways**, and **ports**.
 
-This repository serves as the **shared frontend foundation** for SynteraIQ's AI-powered PhysicalOps platform.  
-It enables rapid development of **vertical-specific SaaS interfaces** across transport sectors such as **airports**, **railways**, and **ports**.
+Inspired by platforms like **Harness (DevOps)** and **ServiceNow (ITSM)**, SynteraIQ brings the same level of intelligence and structure to **PhysicalOps** — handling capital projects, procurement, maintenance, compliance, and real-time operations.
 
 ---
 
-## 🧱 Repo Structure
+## 🧭 What is PhysicalOps?
+
+**PhysicalOps** covers all workflows that support the operation, maintenance, and expansion of physical infrastructure:
+- CapEx request and approval flows
+- Procurement and vendor onboarding
+- Maintenance planning and execution
+- Risk, compliance, and audit tracking
+- Shift management, resource allocation, incident response
+
+SynteraIQ turns these traditionally manual, fragmented processes into intelligent, self-routing workflows using domain-aware, GPT-powered agents.
+
+---
+
+## 🧱 Platform Architecture Overview
+
+```
+            +-------------------------+
+            |     synteraiq-app-*     |  ← SaaS UI (Airports, Railways, Ports)
+            +-------------------------+
+                      |
+             [ WebSocket + REST ]
+                      ▼
+        +--------------------------+
+        |      platform-core       |  ← Auth, user mgmt, approvals, tenants
+        +--------------------------+
+                      |
+        +--------------------------+
+        |    platform-router       |  ← Orchestrates multi-agent flows
+        +--------------------------+
+                      |
+        ▼     ▼     ▼     ▼     ▼
+    agent-capex   agent-procurement   agent-maintenance   ...
+                      |
+               [ GPT / LLMs ]
+```
+
+---
+
+## 📦 Key Repositories
+
+### UI
 
 | Repo | Purpose |
 |------|---------|
-| `ui-core` | Shared component library (chat, layout, auth, GPT UI) |
-| `synteraiq-app-airports` | AirportOps UI — integrates with AODB, CapEx, MRO |
-| `synteraiq-app-railways` | RailwayOps UI — focuses on maintenance, crew, scheduling |
-| `synteraiq-app-ports` | PortOps UI — workflows for cranes, vendors, inspections |
+| `ui-core` | Shared UI components, layouts, GPT chat |
+| `synteraiq-app-airports` | AirportOps UI (AODB, CapEx, MRO) |
+| `synteraiq-app-railways` | RailwayOps UI (crew, track, terminal ops) |
 
-All vertical-specific apps import from `ui-core` to ensure consistency in experience, branding, and functionality.
+### Backend
 
----
+| Repo | Purpose |
+|------|---------|
+| `platform-core` | Central user, auth, approval logic |
+| `platform-router` | Agent orchestration, multi-step logic |
+| `agent-capex` | CapEx intake, validation, approval |
+| `agent-maintenance` | Maintenance workflows, SLA |
+| `agent-sdk` | Shared GPT, retry, logging logic |
+| `ml-infra` | Embedding, vector stores, LLM pipelines |
 
-## 💡 Key Design Principles
+### Infra / Tooling
 
-- 🧩 **Composable:** Modular components using React + Tailwind + shadcn/ui
-- 🌍 **Vertical-specific:** Custom workflows per domain (AODB, FRMS, etc.)
-- 🔁 **Reusable:** All UIs inherit from a centralized UI system (`ui-core`)
-- 🧠 **AI-native:** Integrated WebSocket GPT chat per agent
-
----
-
-## 📁 Example Directory (in `ui-core`)
-
-```
-ui-core/
-├── components/         # Buttons, chat, modals
-├── layout/             # Header, sidebar, shell
-├── lib/                # WebSocket, auth, agent client
-├── pages/              # Minimal pages (used mostly for previews)
-├── context/            # Theme, user, session
-├── branding/           # White-label assets (logos, colors)
-└── index.ts            # Export all UI modules
-```
+| Repo | Purpose |
+|------|---------|
+| `infra-deployments` | Docker, Terraform, GitHub Actions |
+| `docs` | Architecture, onboarding, API references |
+| `template-agent` | FastAPI + GPT starter template |
 
 ---
 
-## 🚀 Usage in a Vertical App
+## 🔌 Supported Integrations
 
-From `synteraiq-app-airports`:
-
-```tsx
-import { ChatWindow, ApprovalTimeline } from "@synteraiq/ui-core";
-```
+- SAP (IO creation, procurement, WBS)
+- AODB / FRMS (resource & flight data)
+- SSO / AD (role-based access)
+- GIS / IoT (asset tracking, real-time telemetry)
+- Excel / CSV (AOP sheet parsing)
 
 ---
 
-## 📦 Tech Stack
+## 🧠 Tech Stack
 
-- React + Next.js or Vite
-- Tailwind CSS + `shadcn/ui`
-- WebSocket support for GPT agents
-- `react-hook-form` + `zod` for input validation
-- Optional white-labeling per tenant or vertical
+- **Python** (FastAPI, SQLModel, LangChain)
+- **React** + Tailwind + shadcn/ui
+- **OpenAI / Claude** (LLM integration)
+- **PostgreSQL**
+- **Docker / GitHub Actions**
+- (Optional) **Temporal** for durable workflows
+
+---
+
+## 🧪 Example Use Cases
+
+- “Submit a CapEx for 3 baggage belts in Terminal 1”
+- “Show maintenance history for Gate 24 over last 60 days”
+- “Route this procurement to the HOD since it exceeds ₹10 lakh”
+- “Generate IO and notify finance for approved terminal expansion”
 
 ---
 
 ## 📄 License
 
-MIT © 2025 SynteraIQ — UI infrastructure for intelligent PhysicalOps.
+MIT © 2025 SynteraIQ – AI-native automation for the physical world.
