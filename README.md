@@ -2,9 +2,7 @@
 
 **SynteraIQ** is a modular AI platform built to automate operational workflows across physical infrastructure domains — including **airports**, **railways**, and **ports**.
 
-Inspired by platforms like **Harness (DevOps)** and **ServiceNow (ITSM)**, SynteraIQ brings the same level of intelligence and structure to **PhysicalOps** — handling capital projects, procurement, maintenance, compliance, and real-time operations.
-
----
+Inspired by platforms like **Harness (DevOps)** and **ServiceNow (ITSM)**, SynteraIQ brings the same level of intelligence and structure to **PhysicalOps**
 
 ## 🧭 What is PhysicalOps?
 
